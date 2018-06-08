@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import GetHome from "./GetHome";
+import Pect from "./Pect";
 
 const mapStateToProps = store => {
   return {
@@ -7,4 +7,4 @@ const mapStateToProps = store => {
   };
 };
 
-export default connect(mapStateToProps)(GetHome);
+export default connect(mapStateToProps)(Pect);

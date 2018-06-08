@@ -8,6 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Snackbar from "@material-ui/core/Snackbar";
 import Navbar from "../Navbar";
+import AddCSV from "../AddCSV";
 
 const drawerWidth = 240;
 
@@ -132,6 +133,7 @@ class Layout extends React.Component {
                 </IconButton>
               ) : null}
               <Navbar />
+              <AddCSV />
             </Toolbar>
           </AppBar>
           {sidebar ? (

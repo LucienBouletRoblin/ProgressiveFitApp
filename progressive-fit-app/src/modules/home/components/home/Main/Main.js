@@ -1,8 +1,7 @@
 import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import GetHome from "./GetHome";
-import CreateHome from "./CreateHome";
+import Pect from "./Pect";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
@@ -22,16 +21,7 @@ class Main extends React.Component {
           <Paper className={classes.root} elevation={4}>
             <Grid container alignItems="center" direction="column">
               <Grid item>
-                <GetHome />
-              </Grid>
-            </Grid>
-          </Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper className={classes.root} elevation={4}>
-            <Grid container alignItems="center" direction="column">
-              <Grid item>
-                <CreateHome />
+                <Pect />
               </Grid>
             </Grid>
           </Paper>
