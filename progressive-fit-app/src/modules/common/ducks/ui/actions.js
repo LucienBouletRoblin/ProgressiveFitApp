@@ -1,21 +1,5 @@
 import * as types from "./types";
 
-export const openCreateTicketDialog = () => {
-  return dispatch => {
-    dispatch({
-      type: types.DIALOG_OPEN
-    });
-  };
-};
-
-export const closeCreateTicketDialog = () => {
-  return dispatch => {
-    dispatch({
-      type: types.DIALOG_CLOSE
-    });
-  };
-};
-
 export const openSnackbar = snackbarMessage => {
   return dispatch => {
     dispatch({
@@ -29,6 +13,22 @@ export const closeSnackbar = () => {
   return dispatch => {
     dispatch({
       type: types.SNACKBAR_CLOSE
+    });
+  };
+};
+
+export const openActionButton = () => {
+  return dispatch => {
+    dispatch({
+      type: types.ACTION_BUTTON_OPEN
+    });
+  };
+};
+
+export const closeActionButton = () => {
+  return dispatch => {
+    dispatch({
+      type: types.ACTION_BUTTON_CLOSE
     });
   };
 };

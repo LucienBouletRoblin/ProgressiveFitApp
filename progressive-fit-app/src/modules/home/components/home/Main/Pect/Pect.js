@@ -1,7 +1,6 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 
 class Pect extends React.Component {
   constructor(props) {
@@ -10,8 +9,6 @@ class Pect extends React.Component {
   }
 
   render() {
-    const { gets } = this.props;
-
     return (
       <Grid container justify="space-between">
         <Grid item xs={12}>

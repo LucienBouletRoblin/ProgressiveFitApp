@@ -7,13 +7,13 @@ class Navbar extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Hidden xsDown>
-          <Grid container direction="row" justify="center" alignItems="center">
-            <Grid item>
-              <Typography variant="title" color="inherit">
-                ProgressiveFitApp
-              </Typography>
-            </Grid>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <Grid item>
+            <Typography variant="title" color="inherit">
+              ProgressiveFitApp
+            </Typography>
+          </Grid>
+          <Hidden xsDown>
             <Grid
               container
               direction="row"
@@ -26,8 +26,8 @@ class Navbar extends React.Component {
                 </Typography>
               </Grid>
             </Grid>{" "}
-          </Grid>
-        </Hidden>
+          </Hidden>
+        </Grid>
       </React.Fragment>
     );
   }

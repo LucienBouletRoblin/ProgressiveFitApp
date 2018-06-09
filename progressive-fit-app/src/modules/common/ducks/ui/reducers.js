@@ -3,6 +3,7 @@ import * as types from "./types";
 const initialState = {
   snackbarMessage: {},
   dialog: false,
+  clickActionButton: false,
   popupSnackbar: false
 };
 
@@ -31,6 +32,18 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         popupSnackbar: false
+      };
+    }
+    case types.ACTION_BUTTON_OPEN: {
+      return {
+        ...state,
+        clickActionButton: true
+      };
+    }
+    case types.ACTION_BUTTON_CLOSE: {
+      return {
+        ...state,
+        clickActionButton: false
       };
     }
     default:
