@@ -3,6 +3,7 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Pect from "./Pect";
 import { withStyles } from "@material-ui/core/styles";
+import ActionButton from "../ActionButton";
 
 const styles = theme => ({
   root: theme.mixins.gutters({
@@ -16,17 +17,20 @@ class Main extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <Grid container>
-        <Grid item xs={12}>
-          <Paper className={classes.root} elevation={4}>
-            <Grid container alignItems="center" direction="column">
-              <Grid item>
-                <Pect />
+      <React.Fragment>
+        <Grid container>
+          <Grid item xs={12}>
+            <Paper className={classes.root} elevation={4}>
+              <Grid container alignItems="center" direction="column">
+                <Grid item>
+                  <Pect />
+                </Grid>
               </Grid>
-            </Grid>
-          </Paper>
+            </Paper>
+          </Grid>
         </Grid>
-      </Grid>
+        <ActionButton />
+      </React.Fragment>
     );
   }
 }

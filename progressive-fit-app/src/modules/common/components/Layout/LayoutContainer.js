@@ -5,15 +5,12 @@ import Layout from "./Layout";
 const mapStateToProps = store => {
   return {
     snackbarMessage: store.Ui.snackbarMessage,
-    popupSnackbar: store.Ui.popupSnackbar,
-    clickActionButton: store.Ui.clickActionButton
+    popupSnackbar: store.Ui.popupSnackbar
   };
 };
 
 const mapDispatchToProps = {
-  closeSnackbar: ui.closeSnackbar,
-  openActionButton: ui.openActionButton,
-  closeActionButton: ui.closeActionButton
+  closeSnackbar: ui.closeSnackbar
 };
 
 export default connect(

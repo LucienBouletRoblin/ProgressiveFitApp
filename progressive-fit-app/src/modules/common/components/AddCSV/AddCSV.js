@@ -7,7 +7,7 @@ class AddCSV extends React.Component {
   render() {
     return (
       <IconButton onClick={this.handleAddCSV}>
-        <NoteAdd />
+        <NoteAdd style={{ color: "white", fontSize: 30 }} />
       </IconButton>
     );
   }

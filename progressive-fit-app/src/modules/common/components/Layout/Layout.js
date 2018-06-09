@@ -6,7 +6,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Hidden from "@material-ui/core/Hidden";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import AddCircle from "@material-ui/icons/AddCircle";
 import MenuIcon from "@material-ui/icons/Menu";
 import Snackbar from "@material-ui/core/Snackbar";
 import Navbar from "../Navbar";
@@ -73,15 +72,6 @@ const styles = theme => ({
     marginTop: 64,
     overflowY: "auto",
     flexDirection: "column"
-  },
-  fab: {
-    position: "fixed",
-    bottom: 0,
-    right: 0,
-    margin: "0 32px 32px 0"
-  },
-  rightDrawer: {
-    minWidth: drawerWidth
   }
 });
 
@@ -98,14 +88,6 @@ class Layout extends React.Component {
     this.setState({ open: true, ...state });
   };
 
-  handleClickOpenActionButton = () => {
-    this.props.openActionButton();
-  };
-
-  handleCloseActionButton = () => {
-    this.props.closeActionButton();
-  };
-
   handleCloseSnackbar = () => {
     this.props.closeSnackbar();
   };
@@ -115,8 +97,6 @@ class Layout extends React.Component {
       classes,
       sidebar,
       content,
-      floating,
-      clickActionButton,
       popupSnackbar,
       snackbarMessage
     } = this.props;
@@ -198,26 +178,6 @@ class Layout extends React.Component {
             <div className={classes.main}>{content}</div>
           </div>
         </div>
-        {floating ? (
-          <React.Fragment>
-            <Button
-              variant="fab"
-              color="secondary"
-              aria-label="add"
-              className={classes.fab}
-              onClick={this.handleClickOpenActionButton}
-            >
-              <AddCircle />
-            </Button>
-            <Drawer
-              anchor="right"
-              open={clickActionButton}
-              onClose={this.handleCloseActionButton}
-            >
-              <div className={classes.rightDrawer}>{floating}</div>
-            </Drawer>
-          </React.Fragment>
-        ) : null}
       </div>
     );
   }
