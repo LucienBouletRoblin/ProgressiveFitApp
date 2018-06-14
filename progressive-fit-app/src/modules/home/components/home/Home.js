@@ -5,12 +5,15 @@ import Layout from "modules/common/components/Layout";
 
 class Home extends React.Component {
   componentDidMount() {
-    this.props.getPosts();
-    document.title = "Home";
+    document.title = "ProgressiveFitApp";
   }
   render() {
-    const { online } = this.props;
-    return <Layout content={<Main />} sidebar={<SideBar online={online} />} />;
+    return (
+      <Layout
+        content={<Main trainingSet={this.props.trainingSet} />}
+        sidebar={<SideBar trainingSet={this.props.trainingSet} />}
+      />
+    );
   }
 }
 

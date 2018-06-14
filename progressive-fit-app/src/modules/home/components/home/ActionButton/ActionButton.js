@@ -2,6 +2,14 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Add from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import withMobileDialog from "@material-ui/core/withMobileDialog";
+import { Form, Field } from "react-final-form";
+import TextField from "modules/common/components/formComponents/TextInput";
 
 const styles = theme => ({
   fab: {
@@ -12,6 +20,10 @@ const styles = theme => ({
   }
 });
 
+const validate = values => {
+  if (!values.name) return { name: "Required !" };
+};
+
 class ActionButton extends React.Component {
   handleClickOpenActionButton = () => {
     this.props.openActionButton();
@@ -21,20 +33,76 @@ class ActionButton extends React.Component {
     this.props.closeActionButton();
   };
 
+  onSubmit = async values => {
+    console.log(JSON.stringify(values));
+    this.props.closeActionButton();
+  };
+
   render() {
-    const { classes } = this.props;
+    const { classes, clickActionButton, fullScreen } = this.props;
     return (
-      <Button
-        variant="fab"
-        color="secondary"
-        aria-label="add"
-        className={classes.fab}
-        onClick={this.handleClickOpenActionButton}
-      >
-        <Add style={{ fontSize: 36 }} />
-      </Button>
+      <React.Fragment>
+        <Button
+          variant="fab"
+          color="secondary"
+          aria-label="add"
+          className={classes.fab}
+          onClick={this.handleClickOpenActionButton}
+        >
+          <Add style={{ fontSize: 36 }} />
+        </Button>
+        <Form
+          onSubmit={this.onSubmit}
+          validate={validate}
+          initialValues={{ name: "PectDay!" }}
+          render={({ handleSubmit, submitting, invalid }) => (
+            <form onSubmit={handleSubmit}>
+              <Dialog
+                fullScreen={fullScreen}
+                open={clickActionButton}
+                onClose={this.handleCloseActionButton}
+              >
+                <DialogTitle>{"Add a training set?"}</DialogTitle>
+                <DialogContent>
+                  <Field
+                    name="name"
+                    component={TextField}
+                    type="text"
+                    label="Name"
+                    required
+                  />
+                  <Field
+                    name="exercise"
+                    component={TextField}
+                    type="text"
+                    label="Exercise"
+                    required
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    onClick={this.handleCloseActionButton}
+                    color="primary"
+                  >
+                    Disagree
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={submitting || invalid}
+                    color="primary"
+                    autoFocus
+                    onClick={handleSubmit}
+                  >
+                    Agree
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </form>
+          )}
+        />
+      </React.Fragment>
     );
   }
 }
 
-export default withStyles(styles)(ActionButton);
+export default withMobileDialog()(withStyles(styles)(ActionButton));

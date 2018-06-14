@@ -4,9 +4,8 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
-import Collapse from "@material-ui/core/Collapse";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
+import ListItems from "./ListItems";
+import Save from "@material-ui/icons/Save";
 
 const styles = theme => ({
   root: {
@@ -23,7 +22,7 @@ class SideBar extends React.Component {
   state = { openAll: true, open: false };
 
   handleClickAll = () => {
-    this.setState({ openAll: !this.state.opopenAlln });
+    this.setState({ openAll: !this.state.openAll });
     alert(this.state.openAll);
   };
 
@@ -32,7 +31,7 @@ class SideBar extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, trainingSet } = this.props;
     return (
       <div className={classes.root}>
         <List component="nav">
@@ -40,20 +39,15 @@ class SideBar extends React.Component {
             <ListItemText primary="All" />
           </ListItem>
           <Divider />
-          <ListItem button onClick={this.handleClick}>
-            <ListItemText primary="Pect" />
-            {this.state.open ? <ExpandLess /> : <ExpandMore />}
+          {trainingSet &&
+            trainingSet.map(set => {
+              return <ListItems key={set.id} set={set} />;
+            })}
+          <Divider />
+          <ListItem button onClick={() => console.log("saved!")}>
+            <Save />
+            <ListItemText primary="Save it!" />
           </ListItem>
-          <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem button className={classes.nested}>
-                <ListItemText inset primary="Press" />
-              </ListItem>
-              <ListItem button className={classes.nested}>
-                <ListItemText inset primary="Press inclined" />
-              </ListItem>
-            </List>
-          </Collapse>
         </List>
       </div>
     );

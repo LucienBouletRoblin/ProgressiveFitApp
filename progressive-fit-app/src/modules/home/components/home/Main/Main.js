@@ -19,7 +19,7 @@ class Main extends React.Component {
     return (
       <React.Fragment>
         <Grid container>
-          <Grid item xs={12}>
+          <Grid item xs={12} sm={6}>
             <Paper className={classes.root} elevation={4}>
               <Grid container alignItems="center" direction="column">
                 <Grid item>
