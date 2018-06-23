@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import Home from "./Home";
+import RemoveTrainingSet from "./RemoveTrainingSet";
 import { actions as trainingSet } from "modules/home/ducks/trainingSet";
 
 const mapStateToProps = store => {
@@ -9,11 +9,11 @@ const mapStateToProps = store => {
 };
 
 const mapDispatchToProps = {
-  addTrainingSet: trainingSet.addTrainingSet,
+  removeTrainingSet: trainingSet.removeTrainingSet,
   getFromDbTrainingSet: trainingSet.getFromDbTrainingSet
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home);
+)(RemoveTrainingSet);

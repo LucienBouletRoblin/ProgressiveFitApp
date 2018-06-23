@@ -9,10 +9,15 @@ const reducer = (state = initialState, action) => {
     case types.ADD_TRAINING_SET: {
       return {
         ...state,
+        trainingSet: [...state.trainingSet, action.payload]
+      };
+    }
+    case types.GET_TRAINING_SET: {
+      return {
+        ...state,
         trainingSet: action.payload
       };
     }
-
     default:
       return state;
   }

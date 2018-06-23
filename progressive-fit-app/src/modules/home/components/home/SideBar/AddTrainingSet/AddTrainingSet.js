@@ -1,6 +1,4 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import Add from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -9,57 +7,54 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import withMobileDialog from "@material-ui/core/withMobileDialog";
 import { Form, Field } from "react-final-form";
 import TextField from "modules/common/components/formComponents/TextInput";
-
-const styles = theme => ({
-  fab: {
-    position: "fixed",
-    bottom: 0,
-    right: 0,
-    margin: "0 30px 30px 0"
-  }
-});
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Add from "@material-ui/icons/Add";
+import { UID } from "modules/common/createId";
 
 const validate = values => {
   if (!values.name) return { name: "Required !" };
 };
 
-class ActionButton extends React.Component {
-  handleClickOpenActionButton = () => {
-    this.props.openActionButton();
+class AddTrainingSet extends React.Component {
+  state = {
+    open: false
   };
 
-  handleCloseActionButton = () => {
-    this.props.closeActionButton();
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
   };
 
   onSubmit = async values => {
-    console.log(JSON.stringify(values));
-    this.props.closeActionButton();
+    values.excercises = [];
+    values.created_date = new Date();
+    values.uid = UID();
+    this.props.addTrainingSet(values);
+    this.handleClose();
   };
 
   render() {
-    const { classes, clickActionButton, fullScreen } = this.props;
+    const { fullScreen } = this.props;
     return (
       <React.Fragment>
-        <Button
-          variant="fab"
-          color="secondary"
-          aria-label="add"
-          className={classes.fab}
-          onClick={this.handleClickOpenActionButton}
-        >
-          <Add style={{ fontSize: 36 }} />
-        </Button>
+        <ListItem button onClick={this.handleClickOpen}>
+          <Add />
+          <ListItemText primary="Add a training set" />
+        </ListItem>
         <Form
           onSubmit={this.onSubmit}
           validate={validate}
-          initialValues={{ name: "PectDay!" }}
+          initialValues={{ name: "Pect/Back" }}
           render={({ handleSubmit, submitting, invalid }) => (
             <form onSubmit={handleSubmit}>
               <Dialog
                 fullScreen={fullScreen}
-                open={clickActionButton}
-                onClose={this.handleCloseActionButton}
+                open={this.state.open}
+                onClose={this.handleClose}
               >
                 <DialogTitle>{"Add a training set?"}</DialogTitle>
                 <DialogContent>
@@ -70,20 +65,10 @@ class ActionButton extends React.Component {
                     label="Name"
                     required
                   />
-                  <Field
-                    name="exercise"
-                    component={TextField}
-                    type="text"
-                    label="Exercise"
-                    required
-                  />
                 </DialogContent>
                 <DialogActions>
-                  <Button
-                    onClick={this.handleCloseActionButton}
-                    color="primary"
-                  >
-                    Disagree
+                  <Button onClick={this.handleClose} color="primary">
+                    Cancel
                   </Button>
                   <Button
                     type="submit"
@@ -92,7 +77,7 @@ class ActionButton extends React.Component {
                     autoFocus
                     onClick={handleSubmit}
                   >
-                    Agree
+                    Add
                   </Button>
                 </DialogActions>
               </Dialog>
@@ -104,4 +89,4 @@ class ActionButton extends React.Component {
   }
 }
 
-export default withMobileDialog()(withStyles(styles)(ActionButton));
+export default withMobileDialog()(AddTrainingSet);

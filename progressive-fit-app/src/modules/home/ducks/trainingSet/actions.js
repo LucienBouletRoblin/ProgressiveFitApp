@@ -1,45 +1,21 @@
 import * as types from "./types";
+import db from "modules/common/db";
 
-const trainingSet = [
-  {
-    id: "1",
-    name: "Pect/Back",
-    exercises: [
-      {
-        id: "1",
-        name: "pect press"
-      },
-      {
-        id: "2",
-        name: "pull down"
-      }
-    ]
-  },
-  {
-    id: "2",
-    name: "Bicep/Tricep",
-    exercises: [
-      {
-        id: "3",
-        name: "curl"
-      },
-      {
-        id: "4",
-        name: "tricep extention"
-      },
-      {
-        id: "5",
-        name: "tricep seated"
-      }
-    ]
-  }
-];
-
-export const addTrainingSet = () => {
+export const addTrainingSet = newTrainingSet => {
+  db.table("trainingSet").add(newTrainingSet);
   return dispatch => {
     dispatch({
       type: types.ADD_TRAINING_SET,
-      payload: trainingSet
+      payload: newTrainingSet
+    });
+  };
+};
+
+export const getFromDbTrainingSet = trainingSetDB => {
+  return dispatch => {
+    dispatch({
+      type: types.GET_TRAINING_SET,
+      payload: trainingSetDB
     });
   };
 };
