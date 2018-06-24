@@ -53,7 +53,6 @@ class ActionButton extends React.Component {
         <Form
           onSubmit={this.onSubmit}
           validate={validate}
-          initialValues={{ name: "PectDay!" }}
           render={({ handleSubmit, submitting, invalid }) => (
             <form onSubmit={handleSubmit}>
               <Dialog
@@ -61,20 +60,20 @@ class ActionButton extends React.Component {
                 open={clickActionButton}
                 onClose={this.handleCloseActionButton}
               >
-                <DialogTitle>{"Add a training set?"}</DialogTitle>
+                <DialogTitle>{"Add an exercise?"}</DialogTitle>
                 <DialogContent>
                   <Field
                     name="name"
                     component={TextField}
                     type="text"
-                    label="Name"
+                    label="Exercise name"
                     required
                   />
                   <Field
                     name="exercise"
                     component={TextField}
                     type="text"
-                    label="Exercise"
+                    label="Number of rep"
                     required
                   />
                 </DialogContent>
@@ -83,7 +82,7 @@ class ActionButton extends React.Component {
                     onClick={this.handleCloseActionButton}
                     color="primary"
                   >
-                    Disagree
+                    Cancel
                   </Button>
                   <Button
                     type="submit"
@@ -92,7 +91,7 @@ class ActionButton extends React.Component {
                     autoFocus
                     onClick={handleSubmit}
                   >
-                    Agree
+                    Add
                   </Button>
                 </DialogActions>
               </Dialog>

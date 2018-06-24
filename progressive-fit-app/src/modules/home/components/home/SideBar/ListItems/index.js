@@ -1,3 +1,3 @@
-import ListItems from "./ListItems";
+import ListItems from "./ListItemsContainer";
 
 export default ListItems;

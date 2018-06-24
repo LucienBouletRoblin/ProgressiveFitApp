@@ -1,2 +1,12 @@
 export const ADD_TRAINING_SET = "trainingSet/ADD_TRAINING_SET";
+export const ADD_TRAINING_SET_SUCCESS = "trainingSet/ADD_TRAINING_SET_SUCCESS";
 export const GET_TRAINING_SET = "trainingSet/GET_TRAINING_SET";
+export const GET_TRAINING_SET_SUCCESS = "trainingSet/GET_TRAINING_SET_SUCCESS";
+
+export const SELECT_TRAINING_SET = "trainingSet/SELECT_TRAINING_SET";
+export const SELECT_TRAINING_SET_SUCCESS =
+  "trainingSet/SELECT_TRAINING_SET_SUCCESS";
+
+export const REMOVE_TRAINING_SET = "trainingSet/REMOVE_TRAINING_SET";
+export const REMOVE_TRAINING_SET_SUCCESS =
+  "trainingSet/REMOVE_TRAINING_SET_SUCCESS";

@@ -14,24 +14,10 @@ const styles = theme => ({
     width: "100%",
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper
-  },
-  nested: {
-    paddingLeft: theme.spacing.unit * 4
   }
 });
 
 class SideBar extends React.Component {
-  state = { openAll: true, open: false };
-
-  handleClickAll = () => {
-    this.setState({ openAll: !this.state.openAll });
-    alert(this.state.openAll);
-  };
-
-  handleClick = () => {
-    this.setState({ open: !this.state.open });
-  };
-
   render() {
     const { classes, trainingSet } = this.props;
     return (

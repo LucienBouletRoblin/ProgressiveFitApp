@@ -6,16 +6,15 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import withMobileDialog from "@material-ui/core/withMobileDialog";
 import { Form, Field } from "react-final-form";
-import SelectInput from "modules/common/components/formComponents/SelectInput";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import ReactSelect from "modules/common/components/formComponents/ReactSelect";
 import Remove from "@material-ui/icons/Remove";
-import db from "modules/common/db";
-import MenuItem from "@material-ui/core/MenuItem";
 
 class RemoveTrainingSet extends React.Component {
   state = {
-    open: false
+    open: false,
+    age: ""
   };
 
   handleClickOpen = () => {
@@ -27,20 +26,28 @@ class RemoveTrainingSet extends React.Component {
   };
 
   onSubmit = async values => {
-    this.props.removeTrainingSet(values);
+    this.props.removeTrainingSet(
+      values && values.trainingSetToRemove && values.trainingSetToRemove.value
+    );
     this.handleClose();
   };
 
+  handleChange = name => event => {
+    this.setState({ [name]: Number(event.target.value) });
+  };
+
   componentDidMount() {
-    db.table("trainingSet")
-      .toArray()
-      .then(trainingSet => {
-        this.props.getFromDbTrainingSet(trainingSet);
-      });
+    this.props.getFromDbTrainingSet();
   }
 
   render() {
     const { fullScreen, trainingSet } = this.props;
+
+    let selectData = trainingSet.map(set => ({
+      value: set.id,
+      label: set.name
+    }));
+
     return (
       <React.Fragment>
         <ListItem button onClick={this.handleClickOpen}>
@@ -59,23 +66,10 @@ class RemoveTrainingSet extends React.Component {
                 <DialogTitle>{"Remove a training set?"}</DialogTitle>
                 <DialogContent>
                   <Field
-                    name="trainingSet_id"
-                    component={SelectInput}
-                    label="Name"
-                    required
-                    multiple
-                  >
-                    <MenuItem value="">
-                      <em>No training set</em>
-                    </MenuItem>
-                    {trainingSet.map(set => {
-                      return (
-                        <MenuItem key={set.id} value={set.id}>
-                          {set.name}
-                        </MenuItem>
-                      );
-                    })}
-                  </Field>
+                    name="trainingSetToRemove"
+                    component={ReactSelect}
+                    options={selectData}
+                  />
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={this.handleClose} color="primary">
