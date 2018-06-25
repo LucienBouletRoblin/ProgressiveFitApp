@@ -1,16 +1,18 @@
 import { connect } from "react-redux";
 import ActionButton from "./ActionButton";
-import { actions as trainingSet } from "modules/home/ducks/trainingSet";
+import { actions as exercise } from "modules/home/ducks/exercise";
 import { actions as ui } from "modules/common/ducks/ui";
 
 const mapStateToProps = store => {
   return {
-    clickActionButton: store.Ui.clickActionButton
+    clickActionButton: store.Ui.clickActionButton,
+    selectedTrainingSet: store.TrainingSet.selectedTrainingSet,
+    trainingSet: store.TrainingSet.trainingSet
   };
 };
 
 const mapDispatchToProps = {
-  addTrainingSet: trainingSet.addTrainingSet,
+  addExercise: exercise.addExercise,
   openActionButton: ui.openActionButton,
   closeActionButton: ui.closeActionButton
 };

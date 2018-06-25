@@ -13,7 +13,10 @@ export const addTrainingSet = newTrainingSet => {
           type: types.ADD_TRAINING_SET_SUCCESS,
           payload: newTrainingSet
         })
-      );
+      )
+      .catch(error => {
+        console.error(error.stack || error);
+      });
   };
 };
 
@@ -29,6 +32,9 @@ export const getFromDbTrainingSet = () => {
           type: types.GET_TRAINING_SET_SUCCESS,
           payload: trainingSet
         });
+      })
+      .catch(error => {
+        console.error(error.stack || error);
       });
   };
 };
@@ -45,6 +51,9 @@ export const removeTrainingSet = trainingSetIdToRemove => {
           type: types.REMOVE_TRAINING_SET_SUCCESS
         });
         dispatch(getFromDbTrainingSet());
+      })
+      .catch(error => {
+        console.error(error.stack || error);
       });
   };
 };

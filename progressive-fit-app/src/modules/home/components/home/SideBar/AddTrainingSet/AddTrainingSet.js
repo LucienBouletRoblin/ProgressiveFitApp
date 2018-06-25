@@ -30,10 +30,6 @@ class AddTrainingSet extends React.Component {
   };
 
   onSubmit = async values => {
-    values.exercises = [
-      { name: "dummy exercise", uid: UID(), reps: 5, created_date: new Date() },
-      { name: "dummy exercise", uid: UID(), reps: 5, created_date: new Date() }
-    ];
     values.created_date = new Date();
     values.uid = UID();
     this.props.addTrainingSet(values);

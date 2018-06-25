@@ -9,6 +9,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import withMobileDialog from "@material-ui/core/withMobileDialog";
 import { Form, Field } from "react-final-form";
 import TextField from "modules/common/components/formComponents/TextInput";
+import ReactSelect from "modules/common/components/formComponents/ReactSelect";
+import { UID } from "modules/common/createId";
 
 const styles = theme => ({
   fab: {
@@ -19,8 +21,32 @@ const styles = theme => ({
   }
 });
 
+const selectData = [
+  {
+    value: 1,
+    label: "1"
+  },
+  {
+    value: 2,
+    label: "2"
+  },
+  {
+    value: 3,
+    label: "3"
+  },
+  {
+    value: 4,
+    label: "4"
+  },
+  {
+    value: 5,
+    label: "5"
+  }
+];
+
 const validate = values => {
   if (!values.name) return { name: "Required !" };
+  if (!values.trainingSetId) return { trainingSetId: "Required !" };
 };
 
 class ActionButton extends React.Component {
@@ -33,12 +59,26 @@ class ActionButton extends React.Component {
   };
 
   onSubmit = async values => {
-    console.log(JSON.stringify(values));
+    values.uid = UID();
+    values.created_date = new Date();
+    this.props.addExercise(values);
     this.props.closeActionButton();
   };
 
   render() {
-    const { classes, clickActionButton, fullScreen } = this.props;
+    const {
+      classes,
+      clickActionButton,
+      fullScreen,
+      selectedTrainingSet,
+      trainingSet
+    } = this.props;
+
+    const trainingSetForSelect = trainingSet.map(set => ({
+      value: set.id,
+      label: set.name
+    }));
+
     return (
       <React.Fragment>
         <Button
@@ -53,6 +93,9 @@ class ActionButton extends React.Component {
         <Form
           onSubmit={this.onSubmit}
           validate={validate}
+          initialValues={{
+            trainingSetId: selectedTrainingSet && selectedTrainingSet.id
+          }}
           render={({ handleSubmit, submitting, invalid }) => (
             <form onSubmit={handleSubmit}>
               <Dialog
@@ -63,6 +106,12 @@ class ActionButton extends React.Component {
                 <DialogTitle>{"Add an exercise?"}</DialogTitle>
                 <DialogContent>
                   <Field
+                    name="trainingSetId"
+                    label="Training Set"
+                    component={ReactSelect}
+                    options={trainingSetForSelect}
+                  />
+                  <Field
                     name="name"
                     component={TextField}
                     type="text"
@@ -70,11 +119,10 @@ class ActionButton extends React.Component {
                     required
                   />
                   <Field
-                    name="exercise"
-                    component={TextField}
-                    type="text"
-                    label="Number of rep"
-                    required
+                    name="set"
+                    label="Number of set"
+                    component={ReactSelect}
+                    options={selectData}
                   />
                 </DialogContent>
                 <DialogActions>
