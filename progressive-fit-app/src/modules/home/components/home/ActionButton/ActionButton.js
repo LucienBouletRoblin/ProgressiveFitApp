@@ -11,6 +11,9 @@ import { Form, Field } from "react-final-form";
 import TextField from "modules/common/components/formComponents/TextInput";
 import ReactSelect from "modules/common/components/formComponents/ReactSelect";
 import { UID } from "modules/common/createId";
+import Select from "modules/common/components/formComponents/SelectInput";
+import MenuItem from "@material-ui/core/MenuItem";
+import Grid from "@material-ui/core/Grid";
 
 const styles = theme => ({
   fab: {
@@ -124,6 +127,20 @@ class ActionButton extends React.Component {
                     component={ReactSelect}
                     options={selectData}
                   />
+                  <Grid container>
+                    <Grid item xs={12}>
+                      <Field
+                        name="city"
+                        label="Select cit zaey"
+                        component={Select}
+                      >
+                        <MenuItem value="London">
+                          Londonzertzertzertzertzerzertzert{" "}
+                        </MenuItem>
+                        <MenuItem value="Paris">Paris</MenuItem>
+                      </Field>
+                    </Grid>
+                  </Grid>
                 </DialogContent>
                 <DialogActions>
                   <Button
