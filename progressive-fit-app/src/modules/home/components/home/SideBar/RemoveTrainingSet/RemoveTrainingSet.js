@@ -8,7 +8,8 @@ import withMobileDialog from "@material-ui/core/withMobileDialog";
 import { Form, Field } from "react-final-form";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import ReactSelect from "modules/common/components/formComponents/ReactSelect";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "modules/common/components/formComponents/SelectInput";
 import Remove from "@material-ui/icons/Remove";
 
 class RemoveTrainingSet extends React.Component {
@@ -43,11 +44,6 @@ class RemoveTrainingSet extends React.Component {
   render() {
     const { fullScreen, trainingSet } = this.props;
 
-    let selectData = trainingSet.map(set => ({
-      value: set.id,
-      label: set.name
-    }));
-
     return (
       <React.Fragment>
         <ListItem button onClick={this.handleClickOpen}>
@@ -67,9 +63,15 @@ class RemoveTrainingSet extends React.Component {
                 <DialogContent>
                   <Field
                     name="trainingSetToRemove"
-                    component={ReactSelect}
-                    options={selectData}
-                  />
+                    label="Training Set"
+                    component={Select}
+                  >
+                    {trainingSet.map(set => (
+                      <MenuItem value={set.id} key={set.id}>
+                        {set.name}
+                      </MenuItem>
+                    ))}
+                  </Field>
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={this.handleClose} color="primary">

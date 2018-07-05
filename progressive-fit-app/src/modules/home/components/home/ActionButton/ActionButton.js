@@ -9,11 +9,10 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import withMobileDialog from "@material-ui/core/withMobileDialog";
 import { Form, Field } from "react-final-form";
 import TextField from "modules/common/components/formComponents/TextInput";
-import ReactSelect from "modules/common/components/formComponents/ReactSelect";
 import { UID } from "modules/common/createId";
 import Select from "modules/common/components/formComponents/SelectInput";
 import MenuItem from "@material-ui/core/MenuItem";
-import Grid from "@material-ui/core/Grid";
+import { Grid } from "@material-ui/core";
 
 const styles = theme => ({
   fab: {
@@ -23,29 +22,6 @@ const styles = theme => ({
     margin: "0 30px 30px 0"
   }
 });
-
-const selectData = [
-  {
-    value: 1,
-    label: "1"
-  },
-  {
-    value: 2,
-    label: "2"
-  },
-  {
-    value: 3,
-    label: "3"
-  },
-  {
-    value: 4,
-    label: "4"
-  },
-  {
-    value: 5,
-    label: "5"
-  }
-];
 
 const validate = values => {
   if (!values.name) return { name: "Required !" };
@@ -77,11 +53,6 @@ class ActionButton extends React.Component {
       trainingSet
     } = this.props;
 
-    const trainingSetForSelect = trainingSet.map(set => ({
-      value: set.id,
-      label: set.name
-    }));
-
     return (
       <React.Fragment>
         <Button
@@ -108,36 +79,45 @@ class ActionButton extends React.Component {
               >
                 <DialogTitle>{"Add an exercise?"}</DialogTitle>
                 <DialogContent>
-                  <Field
-                    name="trainingSetId"
-                    label="Training Set"
-                    component={ReactSelect}
-                    options={trainingSetForSelect}
-                  />
-                  <Field
-                    name="name"
-                    component={TextField}
-                    type="text"
-                    label="Exercise name"
-                    required
-                  />
-                  <Field
-                    name="set"
-                    label="Number of set"
-                    component={ReactSelect}
-                    options={selectData}
-                  />
                   <Grid container>
                     <Grid item xs={12}>
                       <Field
-                        name="city"
-                        label="Select cit zaey"
+                        name="trainingSetId"
+                        label="Training Set"
                         component={Select}
                       >
-                        <MenuItem value="London">
-                          Londonzertzertzertzertzerzertzert{" "}
-                        </MenuItem>
-                        <MenuItem value="Paris">Paris</MenuItem>
+                        {trainingSet.map(set => (
+                          <MenuItem value={set.id} key={set.id}>
+                            {set.name}
+                          </MenuItem>
+                        ))}
+                      </Field>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field
+                        name="name"
+                        component={TextField}
+                        type="text"
+                        label="Exercise name"
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field
+                        name="reps"
+                        label="Select a number of reps"
+                        component={Select}
+                      >
+                        <MenuItem value="1">1</MenuItem>
+                        <MenuItem value="2">2</MenuItem>
+                        <MenuItem value="3">3</MenuItem>
+                        <MenuItem value="4">4</MenuItem>
+                        <MenuItem value="5">5</MenuItem>
+                        <MenuItem value="6">6</MenuItem>
+                        <MenuItem value="7">7</MenuItem>
+                        <MenuItem value="8">8</MenuItem>
+                        <MenuItem value="9">9</MenuItem>
+                        <MenuItem value="10">10</MenuItem>
                       </Field>
                     </Grid>
                   </Grid>
