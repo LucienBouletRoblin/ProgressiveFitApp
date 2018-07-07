@@ -40,7 +40,7 @@ class ActionButton extends React.Component {
   onSubmit = async values => {
     values.uid = UID();
     values.created_date = new Date();
-    this.props.addExercise(values);
+    this.props.addExercise(values, this.props.selectedTrainingSet.id);
     this.props.closeActionButton();
   };
 

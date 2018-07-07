@@ -36,7 +36,8 @@ const reducer = (state = initialState, action) => {
     case types.GET_EXERCISES: {
       return {
         ...state,
-        gettingExercises: true
+        gettingExercises: true,
+        exercises: []
       };
     }
     case types.GET_EXERCISES_SUCCESS: {
@@ -49,7 +50,8 @@ const reducer = (state = initialState, action) => {
     case types.GET_EXERCISES_BY_TRAINING_SET_ID: {
       return {
         ...state,
-        gettingExercises: true
+        gettingExercises: true,
+        exercises: []
       };
     }
     case types.GET_EXERCISES_BY_TRAINING_SET_ID_SUCCESS: {

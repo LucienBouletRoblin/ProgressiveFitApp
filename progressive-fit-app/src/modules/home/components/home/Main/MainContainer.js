@@ -5,7 +5,9 @@ import { actions as exercise } from "modules/home/ducks/exercise";
 
 const mapStateToProps = store => {
   return {
-    selectedTrainingSet: store.TrainingSet.selectedTrainingSet
+    selectedTrainingSet: store.TrainingSet.selectedTrainingSet,
+    exercises: store.Exercise.exercises,
+    trainingSet: store.TrainingSet.trainingSet
   };
 };
 const mapDispatchToProps = {

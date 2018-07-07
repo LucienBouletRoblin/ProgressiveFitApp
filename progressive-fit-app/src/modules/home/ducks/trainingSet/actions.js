@@ -1,5 +1,6 @@
 import * as types from "./types";
 import db from "modules/common/db";
+import { actions as exercise } from "modules/home/ducks/exercise";
 
 export const addTrainingSet = newTrainingSet => {
   return dispatch => {
@@ -20,7 +21,7 @@ export const addTrainingSet = newTrainingSet => {
   };
 };
 
-export const getFromDbTrainingSet = () => {
+export const getFromDbTrainingSet = (withAutoSelectTrainingSet = null) => {
   return dispatch => {
     dispatch({
       type: types.GET_TRAINING_SET
@@ -32,6 +33,9 @@ export const getFromDbTrainingSet = () => {
           type: types.GET_TRAINING_SET_SUCCESS,
           payload: trainingSet
         });
+        if (withAutoSelectTrainingSet && trainingSet && trainingSet[0]) {
+          dispatch(selectTrainingSet(trainingSet[0]));
+        }
       })
       .catch(error => {
         console.error(error.stack || error);
@@ -67,5 +71,10 @@ export const selectTrainingSet = selectedTrainingSet => {
       type: types.SELECT_TRAINING_SET_SUCCESS,
       payload: selectedTrainingSet
     });
+    if (selectedTrainingSet.id) {
+      dispatch(
+        exercise.getFromDbExerciseByTrainingSetId(selectedTrainingSet.id)
+      );
+    }
   };
 };

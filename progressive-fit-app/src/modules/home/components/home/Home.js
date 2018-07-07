@@ -6,7 +6,8 @@ import Layout from "modules/common/components/Layout";
 class Home extends React.Component {
   componentDidMount() {
     document.title = "ProgressiveFitApp";
-    this.props.getFromDbTrainingSet();
+    let withAutoSelectTrainingSet = true;
+    this.props.getFromDbTrainingSet(withAutoSelectTrainingSet);
   }
 
   render() {

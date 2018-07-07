@@ -1,7 +1,7 @@
 import * as types from "./types";
 import db from "modules/common/db";
 
-export const addExercise = newExercise => {
+export const addExercise = (newExercise, trainingSetId) => {
   return dispatch => {
     dispatch({
       type: types.ADD_EXERCISE
@@ -12,7 +12,7 @@ export const addExercise = newExercise => {
         dispatch({
           type: types.ADD_EXERCISE_SUCCESS
         });
-        dispatch(getFromDbExercises());
+        dispatch(getFromDbExerciseByTrainingSetId(trainingSetId));
       })
       .catch(error => {
         console.error(error.stack || error);

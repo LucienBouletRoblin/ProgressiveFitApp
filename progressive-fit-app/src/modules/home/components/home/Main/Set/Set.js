@@ -9,12 +9,13 @@ class Pect extends React.Component {
   }
 
   render() {
+    const { exercise, selectedTrainingSet } = this.props;
     return (
       <Grid container justify="space-between">
         <Grid item xs={12}>
           <Grid container>
             <Grid item xs={12} sm={9}>
-              <Typography variant="title">Pect:</Typography>
+              <Typography variant="title">{exercise.name}</Typography>
             </Grid>
           </Grid>
         </Grid>

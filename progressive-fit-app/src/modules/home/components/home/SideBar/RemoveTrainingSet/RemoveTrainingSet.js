@@ -27,9 +27,7 @@ class RemoveTrainingSet extends React.Component {
   };
 
   onSubmit = async values => {
-    this.props.removeTrainingSet(
-      values && values.trainingSetToRemove && values.trainingSetToRemove.value
-    );
+    this.props.removeTrainingSet(values.trainingSetToRemove);
     this.handleClose();
   };
 

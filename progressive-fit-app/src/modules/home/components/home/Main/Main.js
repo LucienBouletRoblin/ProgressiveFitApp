@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Set from "./Set";
 import { withStyles } from "@material-ui/core/styles";
 import ActionButton from "../ActionButton";
+import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   root: theme.mixins.gutters({
@@ -14,24 +15,25 @@ const styles = theme => ({
 });
 
 class Main extends React.Component {
-  componentDidMount() {
-    if (
-      this.props.selectedTrainingSet === "undefined" &&
-      this.props.trainingSet &&
-      this.props.trainingSet[0]
-    ) {
-      this.props.selectTrainingSet(this.props.trainingSet[0]);
-    }
-  }
-
   render() {
-    const { classes, selectedTrainingSet } = this.props;
+    const { classes, selectedTrainingSet, exercises } = this.props;
 
     return (
       <React.Fragment>
         <Grid container>
-          {selectedTrainingSet.exercises
-            ? selectedTrainingSet.exercises.map(exercise => {
+          {selectedTrainingSet && (
+            <Grid item xs={12}>
+              <Grid container>
+                <Grid item xs={12} sm={9}>
+                  <Typography variant="title">
+                    {selectedTrainingSet.name}:
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+          )}
+          {selectedTrainingSet && exercises
+            ? exercises.map(exercise => {
                 return (
                   <Grid item xs={12} sm={6} key={exercise.uid}>
                     <Paper className={classes.root} elevation={4}>
