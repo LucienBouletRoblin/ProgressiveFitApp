@@ -3,7 +3,7 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Set from "./Set";
 import { withStyles } from "@material-ui/core/styles";
-import ActionButton from "../ActionButton";
+import AddExercise from "../AddExercise";
 import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
@@ -20,22 +20,18 @@ class Main extends React.Component {
 
     return (
       <React.Fragment>
-        <Grid container>
+        <Grid container direction="row">
           {selectedTrainingSet && (
-            <Grid item xs={12}>
-              <Grid container>
-                <Grid item xs={12} sm={9}>
-                  <Typography variant="title">
-                    {selectedTrainingSet.name}:
-                  </Typography>
-                </Grid>
-              </Grid>
+            <Grid item xs={12} sm={9}>
+              <Typography variant="title">
+                {selectedTrainingSet.name}:
+              </Typography>
             </Grid>
           )}
           {selectedTrainingSet && exercises
             ? exercises.map(exercise => {
                 return (
-                  <Grid item xs={12} sm={6} key={exercise.uid}>
+                  <Grid item xs={12} key={exercise.uid}>
                     <Paper className={classes.root} elevation={4}>
                       <Grid container alignItems="center" direction="column">
                         <Grid item>
@@ -50,8 +46,14 @@ class Main extends React.Component {
                 );
               })
             : null}
+          <Grid item xs={12}>
+            <Grid container justify="center">
+              <Grid item>
+                <AddExercise />
+              </Grid>
+            </Grid>
+          </Grid>
         </Grid>
-        <ActionButton />
       </React.Fragment>
     );
   }

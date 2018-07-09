@@ -14,21 +14,18 @@ import Select from "modules/common/components/formComponents/SelectInput";
 import MenuItem from "@material-ui/core/MenuItem";
 import { Grid } from "@material-ui/core";
 
-const styles = theme => ({
-  fab: {
-    position: "fixed",
-    bottom: 0,
-    right: 0,
-    margin: "0 30px 30px 0"
-  }
-});
-
 const validate = values => {
   if (!values.name) return { name: "Required !" };
   if (!values.trainingSetId) return { trainingSetId: "Required !" };
 };
 
-class ActionButton extends React.Component {
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit * 2
+  }
+});
+
+class AddExercise extends React.Component {
   handleClickOpenActionButton = () => {
     this.props.openActionButton();
   };
@@ -46,23 +43,23 @@ class ActionButton extends React.Component {
 
   render() {
     const {
-      classes,
       clickActionButton,
       fullScreen,
       selectedTrainingSet,
-      trainingSet
+      trainingSet,
+      classes
     } = this.props;
 
     return (
       <React.Fragment>
         <Button
-          variant="fab"
-          color="secondary"
+          variant="contained"
+          color="primary"
           aria-label="add"
-          className={classes.fab}
+          className={classes.button}
           onClick={this.handleClickOpenActionButton}
         >
-          <Add style={{ fontSize: 36 }} />
+          <Add /> Add an exercise
         </Button>
         <Form
           onSubmit={this.onSubmit}
@@ -102,24 +99,6 @@ class ActionButton extends React.Component {
                         required
                       />
                     </Grid>
-                    <Grid item xs={12}>
-                      <Field
-                        name="reps"
-                        label="Select a number of reps"
-                        component={Select}
-                      >
-                        <MenuItem value="1">1</MenuItem>
-                        <MenuItem value="2">2</MenuItem>
-                        <MenuItem value="3">3</MenuItem>
-                        <MenuItem value="4">4</MenuItem>
-                        <MenuItem value="5">5</MenuItem>
-                        <MenuItem value="6">6</MenuItem>
-                        <MenuItem value="7">7</MenuItem>
-                        <MenuItem value="8">8</MenuItem>
-                        <MenuItem value="9">9</MenuItem>
-                        <MenuItem value="10">10</MenuItem>
-                      </Field>
-                    </Grid>
                   </Grid>
                 </DialogContent>
                 <DialogActions>
@@ -148,4 +127,4 @@ class ActionButton extends React.Component {
   }
 }
 
-export default withMobileDialog()(withStyles(styles)(ActionButton));
+export default withMobileDialog()(withStyles(styles)(AddExercise));

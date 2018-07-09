@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import ActionButton from "./ActionButton";
+import AddExercise from "./AddExercise";
 import { actions as exercise } from "modules/home/ducks/exercise";
 import { actions as ui } from "modules/common/ducks/ui";
 
@@ -20,4 +20,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ActionButton);
+)(AddExercise);
