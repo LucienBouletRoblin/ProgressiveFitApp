@@ -61,7 +61,6 @@ class Pect extends React.Component {
     this.setState({
       sets: this.state.sets + 1
     });
-    console.log(this.state.sets);
   };
 
   componentDidMount() {

@@ -1,3 +1,3 @@
-import Set from "./Set";
+import Set from "./SetContainer";
 
 export default Set;

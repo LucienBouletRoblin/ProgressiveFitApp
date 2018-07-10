@@ -1,18 +1,18 @@
 import * as types from "./types";
 import db from "modules/common/db";
 
-export const addExercise = newExercise => {
+export const addSet = newSet => {
   return dispatch => {
     dispatch({
-      type: types.ADD_EXERCISE
+      type: types.ADD_SET
     });
-    db.table("exercise")
-      .add(newExercise)
+    db.table("Set")
+      .add(newSet)
       .then(() => {
         dispatch({
-          type: types.ADD_EXERCISE_SUCCESS
+          type: types.ADD_SET_SUCCESS
         });
-        dispatch(getFromDbExercises());
+        dispatch(getFromDbSets());
       })
       .catch(error => {
         console.error(error.stack || error);
@@ -20,17 +20,17 @@ export const addExercise = newExercise => {
   };
 };
 
-export const getFromDbExercises = () => {
+export const getFromDbSets = () => {
   return dispatch => {
     dispatch({
-      type: types.GET_EXERCISES
+      type: types.GET_SETS
     });
-    db.table("exercise")
+    db.table("Set")
       .toArray()
-      .then(exercises => {
+      .then(Sets => {
         dispatch({
-          type: types.GET_EXERCISES_SUCCESS,
-          payload: exercises
+          type: types.GET_SETS_SUCCESS,
+          payload: Sets
         });
       })
       .catch(error => {
@@ -39,18 +39,18 @@ export const getFromDbExercises = () => {
   };
 };
 
-export const getFromDbExerciseByTrainingSetId = trainingSetId => {
+export const getFromDbSetByTrainingSetId = trainingSetId => {
   return dispatch => {
     dispatch({
-      type: types.GET_EXERCISES_BY_TRAINING_SET_ID
+      type: types.GET_SETS_BY_TRAINING_SET_ID
     });
-    db.table("exercise")
+    db.table("Set")
       .where({ trainingSetId: trainingSetId })
       .toArray()
-      .then(exercises => {
+      .then(Sets => {
         dispatch({
-          type: types.GET_EXERCISES_BY_TRAINING_SET_ID_SUCCESS,
-          payload: exercises
+          type: types.GET_SETS_BY_TRAINING_SET_ID_SUCCESS,
+          payload: Sets
         });
       })
       .catch(error => {
@@ -59,18 +59,18 @@ export const getFromDbExerciseByTrainingSetId = trainingSetId => {
   };
 };
 
-export const removeExercise = exerciseIdToRemove => {
+export const removeSet = SetIdToRemove => {
   return dispatch => {
     dispatch({
-      type: types.REMOVE_EXERCISE
+      type: types.REMOVE_Set
     });
-    db.table("exercise")
-      .delete(exerciseIdToRemove)
+    db.table("Set")
+      .delete(SetIdToRemove)
       .then(() => {
         dispatch({
-          type: types.REMOVE_EXERCISE_SUCCESS
+          type: types.REMOVE_Set_SUCCESS
         });
-        dispatch(getFromDbExercises());
+        dispatch(getFromDbSets());
       })
       .catch(error => {
         console.error(error.stack || error);

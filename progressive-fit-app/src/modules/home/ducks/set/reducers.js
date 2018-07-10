@@ -1,62 +1,62 @@
 import * as types from "./types";
 
 const initialState = {
-  exercises: [],
-  addingExercise: false,
-  removingExercise: false,
-  gettingExercises: false
+  sets: [],
+  addingSet: false,
+  removingSet: false,
+  gettingSets: false
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.ADD_EXERCISE: {
+    case types.ADD_SET: {
       return {
         ...state,
-        addingExercise: true
+        addingSet: true
       };
     }
-    case types.ADD_EXERCISE_SUCCESS: {
+    case types.ADD_SET_SUCCESS: {
       return {
         ...state,
-        addingExercise: false
+        addingSet: false
       };
     }
-    case types.REMOVE_EXERCISE: {
+    case types.REMOVE_SET: {
       return {
         ...state,
-        removingExercise: true
+        removingSet: true
       };
     }
-    case types.REMOVE_EXERCISE_SUCCESS: {
+    case types.REMOVE_SET_SUCCESS: {
       return {
         ...state,
-        removingExercise: false
+        removingSet: false
       };
     }
-    case types.GET_EXERCISES: {
+    case types.GET_SETS: {
       return {
         ...state,
-        gettingExercises: true
+        gettingSets: true
       };
     }
-    case types.GET_EXERCISES_SUCCESS: {
+    case types.GET_SETS_SUCCESS: {
       return {
         ...state,
-        exercises: action.payload,
-        gettingExercises: false
+        sets: action.payload,
+        gettingSets: false
       };
     }
-    case types.GET_EXERCISES_BY_TRAINING_SET_ID: {
+    case types.GET_SETS_BY_TRAINING_SET_ID: {
       return {
         ...state,
-        gettingExercises: true
+        gettingSets: true
       };
     }
-    case types.GET_EXERCISES_BY_TRAINING_SET_ID_SUCCESS: {
+    case types.GET_SETS_BY_TRAINING_SET_ID_SUCCESS: {
       return {
         ...state,
-        exercises: action.payload,
-        gettingExercises: false
+        sets: action.payload,
+        gettingSets: false
       };
     }
     default:

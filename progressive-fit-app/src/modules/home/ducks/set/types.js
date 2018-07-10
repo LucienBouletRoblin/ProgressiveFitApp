@@ -1,12 +1,12 @@
-export const ADD_EXERCISE = "trainingSet/ADD_EXERCISE";
-export const ADD_EXERCISE_SUCCESS = "trainingSet/ADD_EXERCISE_SUCCESS";
-export const GET_EXERCISES = "trainingSet/GET_EXERCISES";
-export const GET_EXERCISES_SUCCESS = "trainingSet/GET_EXERCISES_SUCCESS";
+export const ADD_SET = "trainingSet/ADD_SET";
+export const ADD_SET_SUCCESS = "trainingSet/ADD_SET_SUCCESS";
+export const GET_SETS = "trainingSet/GET_SETS";
+export const GET_SETS_SUCCESS = "trainingSet/GET_SETS_SUCCESS";
 
-export const REMOVE_EXERCISE = "trainingSet/REMOVE_EXERCISE";
-export const REMOVE_EXERCISE_SUCCESS = "trainingSet/REMOVE_EXERCISE_SUCCESS";
+export const REMOVE_SET = "trainingSet/REMOVE_SET";
+export const REMOVE_SET_SUCCESS = "trainingSet/REMOVE_SET_SUCCESS";
 
-export const GET_EXERCISES_BY_TRAINING_SET_ID =
-  "trainingSet/GET_EXERCISES_BY_TRAINING_SET_ID";
-export const GET_EXERCISES_BY_TRAINING_SET_ID_SUCCESS =
-  "trainingSet/GET_EXERCISES_BY_TRAINING_SET_ID_SUCCESS";
+export const GET_SETS_BY_TRAINING_SET_ID =
+  "trainingSet/GET_SETS_BY_TRAINING_SET_ID";
+export const GET_SETS_BY_TRAINING_SET_ID_SUCCESS =
+  "trainingSet/GET_SETS_BY_TRAINING_SET_ID_SUCCESS";
