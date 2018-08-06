@@ -9,7 +9,6 @@ const mapStateToProps = store => {
 };
 
 const mapDispatchToProps = {
-  addTrainingSet: trainingSet.addTrainingSet,
   getFromDbTrainingSet: trainingSet.getFromDbTrainingSet
 };
 

@@ -5,17 +5,44 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import withMobileDialog from "@material-ui/core/withMobileDialog";
-import { Form, Field } from "react-final-form";
+import { Form } from "react-final-form";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import CloudUpload from "@material-ui/icons/CloudUpload";
 import db from "modules/common/db";
 import IDBExportImport from "indexeddb-export-import";
 
+const importFromJsonString = (idb_db, jsonString, cb) => {
+  let objectStoreNames = idb_db.objectStoreNames;
+  let transaction = idb_db.transaction(objectStoreNames, "readwrite");
+  transaction.onerror = function(event) {
+    cb(event);
+  };
+  let importObject = JSON.parse(JSON.parse(jsonString));
+  [...objectStoreNames].map(storeName => {
+    let count = 0;
+    importObject[storeName].map(toAdd => {
+      let request = transaction.objectStore(storeName).add(toAdd);
+      request.onsuccess = function(event) {
+        count++;
+        if (count === importObject[storeName].length) {
+          // added all objects for this store
+          delete importObject[storeName];
+          if (importObject.length === 0)
+            // added all object stores
+            cb(null);
+        }
+      };
+      return null;
+    });
+    return null;
+  });
+};
+
 class ImportData extends React.Component {
   state = {
     open: false,
-    data: {}
+    data: ""
   };
 
   handleClickOpen = () => {
@@ -28,23 +55,27 @@ class ImportData extends React.Component {
 
   onSubmit = async values => {
     if (this.state.data) {
-      db.open().then(function() {
-        let idb_db = db.backendDB();
-        IDBExportImport.clearDatabase(idb_db, function(err) {
-          console.log("in clear");
-          console.log(this.state.data);
-          if (!err)
-            IDBExportImport.importFromJsonString(
-              idb_db,
-              this.state.data,
-              function(err) {
-                if (!err) console.log("Imported data successfully");
-              }
-            );
-        }).catch(function(e) {
+      let jsonString = this.state.data;
+      db.open()
+        .then(function() {
+          let idb_db = db.backendDB();
+          IDBExportImport.clearDatabase(idb_db, function(err) {
+            if (!err) {
+              importFromJsonString(idb_db, jsonString, function(err) {
+                console.log(err);
+                if (err) {
+                  console.log("Imported data not successfully");
+                }
+              });
+            }
+          });
+        })
+        .then(() => {
+          window.location.reload();
+        })
+        .catch(function(e) {
           console.error("Could not connect. " + e);
         });
-      });
       this.handleClose();
     }
   };
@@ -54,7 +85,6 @@ class ImportData extends React.Component {
 
     const handleFileRead = () => {
       this.setState({ data: fileReader.result });
-      console.log(this.state.data);
     };
 
     fileReader = new FileReader();
