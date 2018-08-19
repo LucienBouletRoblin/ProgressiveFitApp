@@ -94,9 +94,34 @@ class Pect extends React.Component {
                                     component={TextField}
                                     type="number"
                                     label="Mass"
-                                    onChange={{() => fields.push(index)}}
+                                    onChange={() => fields.push(index)}
                                   />
                                 </Grid>
+                                <FieldArray name={`${set}_${subset}_superset`}>
+                                  {({ fields }) =>
+                                    fields.map((superset, index) => (
+                                      <div key={superset}>
+                                        <Grid item xs={4}>
+                                          <Field
+                                            name={`reps_${superset}`}
+                                            component={TextField}
+                                            type="number"
+                                            label="Reps"
+                                          />
+                                        </Grid>
+                                        <Grid item xs={4}>
+                                          <Field
+                                            name={`mass_${superset}`}
+                                            component={TextField}
+                                            type="number"
+                                            label="Mass"
+                                            onBlur={() => fields.push(index)}
+                                          />
+                                        </Grid>
+                                      </div>
+                                    ))
+                                  }
+                                </FieldArray>
                               </div>
                             ))
                           }
@@ -105,17 +130,20 @@ class Pect extends React.Component {
                     ))
                   }
                 </FieldArray>
+                <Grid container direction="column" alignItems="center">
+                  <Grid item xs={12}>
+                    <IconButton
+                      color="secondary"
+                      onClick={() => push("sets", undefined)}
+                    >
+                      ><Add style={{ fontSize: 36 }} />
+                    </IconButton>
+                  </Grid>
+                </Grid>
               </form>
             );
           }}
         />
-        <Grid container direction="column" alignItems="center">
-          <Grid item xs={12}>
-            <IconButton color="secondary" onClick={{() => fields.push(index)}}>
-              <Add style={{ fontSize: 36 }} />
-            </IconButton>
-          </Grid>
-        </Grid>
       </Grid>
     );
   }
