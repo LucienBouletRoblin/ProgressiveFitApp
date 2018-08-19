@@ -2,6 +2,8 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { Form, Field } from "react-final-form";
+import arrayMutators from "final-form-arrays";
+import { FieldArray } from "react-final-form-arrays";
 import TextField from "modules/common/components/formComponents/TextInput";
 import SubdirectoryArrow from "@material-ui/icons/SubdirectoryArrowRight";
 import Add from "@material-ui/icons/AddCircle";
@@ -16,33 +18,6 @@ const styles = theme => ({
   }
 });
 
-const ConditionRepNotEmpty = ({ when, isNot, children }) => (
-  <Field name={when} subscription={{ value: true }}>
-    {({ input: { value } }) => (value !== isNot ? children : null)}
-  </Field>
-);
-
-const RepMassField = ({ set }) => (
-  <React.Fragment>
-    <Grid item xs={4}>
-      <Field
-        name={`reps_${set}`}
-        component={TextField}
-        type="number"
-        label="Reps"
-      />
-    </Grid>
-    <Grid item xs={4}>
-      <Field
-        name={`mass_${set}`}
-        component={TextField}
-        type="number"
-        label="Mass"
-      />
-    </Grid>
-  </React.Fragment>
-);
-
 class Pect extends React.Component {
   constructor(props) {
     super(props);
@@ -55,12 +30,6 @@ class Pect extends React.Component {
     values.created_date = new Date();
     this.props.addExercise(values, this.props.selectedTrainingSet.id);
     this.props.closeActionButton();
-  };
-
-  handleAddSets = () => {
-    this.setState({
-      sets: this.state.sets + 1
-    });
   };
 
   componentDidMount() {
@@ -88,86 +57,61 @@ class Pect extends React.Component {
             </Grid>
           </Grid>
         </Grid>
-        {[...Array(sets)].map((e, i) => (
-          <Grid item xs={12} key={i}>
-            <Form
-              onSubmit={this.onSubmit}
-              initialValues={{
-                trainingSetId: selectedTrainingSet && selectedTrainingSet.id
-              }}
-              render={({ handleSubmit, submitting, invalid }) => (
-                <form onSubmit={handleSubmit}>
-                  <Grid
-                    container
-                    direction="row"
-                    spacing={8}
-                    alignItems="flex-end"
-                  >
-                    <ConditionRepNotEmpty when="reps_0" isNot="">
-                      <ConditionRepNotEmpty when="mass_0" isNot="">
-                        <Grid item xs={1}>
-                          <Check color="primary" />
-                        </Grid>
-                      </ConditionRepNotEmpty>
-                    </ConditionRepNotEmpty>
-                    <RepMassField set={0} />
-                    <Grid item xs={3}>
-                      <Typography variant="caption">
-                        {"at " +
-                          moment(exercise && exercise.created_date).format(
-                            "H:mm:ss"
-                          )}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                  <ConditionRepNotEmpty when="reps_0" isNot="">
-                    <Grid
-                      container
-                      direction="row"
-                      spacing={24}
-                      alignItems="flex-end"
-                    >
-                      <Grid item xs={2}>
-                        <SubdirectoryArrow className={classes.icon} />
-                      </Grid>
-                      <RepMassField set={1} />
-                    </Grid>
-                  </ConditionRepNotEmpty>
-                  <ConditionRepNotEmpty when="reps_1" isNot="">
-                    <Grid
-                      container
-                      direction="row"
-                      spacing={24}
-                      alignItems="center"
-                    >
-                      <Grid item xs={2}>
-                        <SubdirectoryArrow className={classes.icon} />
-                      </Grid>
-                      <RepMassField set={2} />
-                    </Grid>
-                  </ConditionRepNotEmpty>
-                  <ConditionRepNotEmpty when="reps_2" isNot="">
-                    <Grid
-                      container
-                      direction="row"
-                      spacing={24}
-                      alignItems="center"
-                    >
-                      <Grid item xs={2}>
-                        <SubdirectoryArrow className={classes.icon} />
-                      </Grid>
-                      <RepMassField set={3} />
-                    </Grid>
-                  </ConditionRepNotEmpty>
-                </form>
-              )}
-            />
-          </Grid>
-        ))}
-
+        <Form
+          onSubmit={this.onSubmit}
+          mutators={{
+            ...arrayMutators
+          }}
+          render={({
+            handleSubmit,
+            mutators: { push, pop }, // injected from final-form-arrays above
+            pristine,
+            reset,
+            submitting,
+            values
+          }) => {
+            return (
+              <form onSubmit={handleSubmit}>
+                <FieldArray name="sets">
+                  {({ fields }) =>
+                    fields.map((set, index) => (
+                      <div key={set}>
+                        <FieldArray name={`${set}_subsets`}>
+                          {({ fields }) =>
+                            fields.map((subset, index) => (
+                              <div key={subset}>
+                                <Grid item xs={4}>
+                                  <Field
+                                    name={`reps_${subset}`}
+                                    component={TextField}
+                                    type="number"
+                                    label="Reps"
+                                  />
+                                </Grid>
+                                <Grid item xs={4}>
+                                  <Field
+                                    name={`mass_${subset}`}
+                                    component={TextField}
+                                    type="number"
+                                    label="Mass"
+                                    onChange={{() => fields.push(index)}}
+                                  />
+                                </Grid>
+                              </div>
+                            ))
+                          }
+                        </FieldArray>
+                      </div>
+                    ))
+                  }
+                </FieldArray>
+              </form>
+            );
+          }}
+        />
         <Grid container direction="column" alignItems="center">
           <Grid item xs={12}>
-            <IconButton color="secondary" onClick={this.handleAddSets}>
+            <IconButton color="secondary" onClick={{() => fields.push(index)}}>
               <Add style={{ fontSize: 36 }} />
             </IconButton>
           </Grid>
