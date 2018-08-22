@@ -18,14 +18,20 @@ const styles = theme => ({
   }
 });
 
-class Pect extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      sets: 1
-    };
-  }
+const initial = {
+  sets: [
+    { reps: 1, mass: 1, subsets: [{ reps: 3, mass: 3 }, { reps: 3, mass: 3 }] },
+    { reps: 3, mass: 3 }
+  ]
+};
 
+const ConditionRepNotEmpty = ({ when, isNot, children }) => (
+  <Field name={when} subscription={{ value: true }}>
+    {({ input: { value } }) => (value !== isNot ? children : null)}
+  </Field>
+);
+
+class Pect extends React.Component {
   onSubmit = async values => {
     values.created_date = new Date();
     this.props.addExercise(values, this.props.selectedTrainingSet.id);
@@ -41,8 +47,7 @@ class Pect extends React.Component {
   }
 
   render() {
-    const { exercise, selectedTrainingSet, classes } = this.props;
-    const { sets } = this.state;
+    const { exercise, classes } = this.props;
     return (
       <Grid container>
         <Grid item xs={12}>
@@ -62,66 +67,97 @@ class Pect extends React.Component {
           mutators={{
             ...arrayMutators
           }}
-          render={({
-            handleSubmit,
-            mutators: { push, pop }, // injected from final-form-arrays above
-            pristine,
-            reset,
-            submitting,
-            values
-          }) => {
+          initialValues={initial}
+          render={({ handleSubmit, mutators: { push } }) => {
             return (
               <form onSubmit={handleSubmit}>
                 <FieldArray name="sets">
                   {({ fields }) =>
                     fields.map((set, index) => (
                       <div key={set}>
-                        <FieldArray name={`${set}_subsets`}>
+                        <Grid container direction="row" alignItems="center">
+                          <ConditionRepNotEmpty when={`${set}.reps`} isNot="">
+                            <ConditionRepNotEmpty when={`${set}.mass`} isNot="">
+                              <Grid item xs={1}>
+                                <Check color="primary" />
+                              </Grid>
+                            </ConditionRepNotEmpty>
+                          </ConditionRepNotEmpty>
+                          <Grid item xs={4}>
+                            <Field
+                              name={`${set}.reps`}
+                              component={TextField}
+                              type="number"
+                              label="Reps"
+                              inputProps={{ min: 0 }}
+                            />
+                          </Grid>
+                          <Grid item xs={4}>
+                            <Field
+                              name={`${set}.mass`}
+                              component={TextField}
+                              type="number"
+                              label="Mass"
+                              inputProps={{ min: 0 }}
+                            />
+                          </Grid>
+                          <ConditionRepNotEmpty when={`${set}.reps`} isNot="">
+                            <ConditionRepNotEmpty when={`${set}.mass`} isNot="">
+                              <Grid item xs={2}>
+                                <IconButton
+                                  onClick={() => {
+                                    push(`${set}.subsets`, undefined);
+                                  }}
+                                >
+                                  <Add />
+                                </IconButton>
+                              </Grid>
+                            </ConditionRepNotEmpty>
+                          </ConditionRepNotEmpty>
+                        </Grid>
+                        <FieldArray name={`${set}.subsets`}>
                           {({ fields }) =>
                             fields.map((subset, index) => (
                               <div key={subset}>
-                                <Grid item xs={4}>
-                                  <Field
-                                    name={`reps_${subset}`}
-                                    component={TextField}
-                                    type="number"
-                                    label="Reps"
-                                  />
+                                <Grid container direction="row">
+                                  <Grid item xs={2}>
+                                    <SubdirectoryArrow
+                                      className={classes.icon}
+                                    />
+                                  </Grid>
+
+                                  <Grid item xs={4}>
+                                    <Field
+                                      name={`${subset}.reps`}
+                                      component={TextField}
+                                      type="number"
+                                      label="Reps"
+                                      inputProps={{ min: 0 }}
+                                    />
+                                  </Grid>
+                                  <Grid item xs={4}>
+                                    <Field
+                                      name={`${subset}.mass`}
+                                      component={TextField}
+                                      type="number"
+                                      label="Mass"
+                                      inputProps={{ min: 0 }}
+                                    />
+                                  </Grid>
+                                  <ConditionRepNotEmpty
+                                    when={`${subset}.reps`}
+                                    isNot=""
+                                  >
+                                    <ConditionRepNotEmpty
+                                      when={`${subset}.mass`}
+                                      isNot=""
+                                    >
+                                      <Grid item xs={1}>
+                                        <Check color="primary" />
+                                      </Grid>
+                                    </ConditionRepNotEmpty>
+                                  </ConditionRepNotEmpty>
                                 </Grid>
-                                <Grid item xs={4}>
-                                  <Field
-                                    name={`mass_${subset}`}
-                                    component={TextField}
-                                    type="number"
-                                    label="Mass"
-                                    onChange={() => fields.push(index)}
-                                  />
-                                </Grid>
-                                <FieldArray name={`${set}_${subset}_superset`}>
-                                  {({ fields }) =>
-                                    fields.map((superset, index) => (
-                                      <div key={superset}>
-                                        <Grid item xs={4}>
-                                          <Field
-                                            name={`reps_${superset}`}
-                                            component={TextField}
-                                            type="number"
-                                            label="Reps"
-                                          />
-                                        </Grid>
-                                        <Grid item xs={4}>
-                                          <Field
-                                            name={`mass_${superset}`}
-                                            component={TextField}
-                                            type="number"
-                                            label="Mass"
-                                            onBlur={() => fields.push(index)}
-                                          />
-                                        </Grid>
-                                      </div>
-                                    ))
-                                  }
-                                </FieldArray>
                               </div>
                             ))
                           }
@@ -134,9 +170,11 @@ class Pect extends React.Component {
                   <Grid item xs={12}>
                     <IconButton
                       color="secondary"
-                      onClick={() => push("sets", undefined)}
+                      onClick={() => {
+                        push("sets", undefined);
+                      }}
                     >
-                      ><Add style={{ fontSize: 36 }} />
+                      <Add style={{ fontSize: 36 }} />
                     </IconButton>
                   </Grid>
                 </Grid>

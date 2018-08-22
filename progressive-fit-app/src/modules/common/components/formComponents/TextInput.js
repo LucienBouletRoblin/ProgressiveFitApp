@@ -9,8 +9,9 @@ const styles = theme => ({
 });
 
 const TextInput = ({
-  input: { name, onChange, value, ...restInput },
+  input: { name, onChange, value },
   meta,
+  inputProps,
   classes,
   ...rest
 }) => (
@@ -19,7 +20,7 @@ const TextInput = ({
     name={name}
     helperText={meta.touched ? meta.error : undefined}
     error={meta.error && meta.touched}
-    inputProps={restInput}
+    inputProps={inputProps}
     onChange={onChange}
     value={value}
     className={classes.textField}
