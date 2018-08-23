@@ -25,7 +25,7 @@ class SideBar extends React.Component {
           <Divider />
           {trainingSet &&
             trainingSet.map(set => {
-              return <ListItems key={set.id} set={set} />;
+              return <ListItems key={set.uid} set={set} />;
             })}
           <Divider />
           <AddTrainingSet />

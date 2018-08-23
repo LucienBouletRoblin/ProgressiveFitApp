@@ -65,7 +65,7 @@ class RemoveTrainingSet extends React.Component {
                     component={Select}
                   >
                     {trainingSet.map(set => (
-                      <MenuItem value={set.id} key={set.id}>
+                      <MenuItem value={set.id} key={set.uid}>
                         {set.name}
                       </MenuItem>
                     ))}
