@@ -8,7 +8,6 @@
     "dexie": "^2.0.4",
     "final-form": "^4.8.2",
     "final-form-arrays": "^1.0.4",
-    "indexeddb-export-import": "^1.0.3",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
     "react": "^16.4.0",

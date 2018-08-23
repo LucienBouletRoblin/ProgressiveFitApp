@@ -10,7 +10,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import CloudUpload from "@material-ui/icons/CloudUpload";
 import db from "modules/common/db";
-import IDBExportImport from "indexeddb-export-import";
 
 const importFromJsonString = (idb_db, jsonString, cb) => {
   let objectStoreNames = idb_db.objectStoreNames;
@@ -39,6 +38,17 @@ const importFromJsonString = (idb_db, jsonString, cb) => {
   });
 };
 
+const clearDatabase = (idb_db, cb) => {
+  let transaction = idb_db.transaction(idb_db.objectStoreNames, "readwrite");
+  transaction.onerror = event => {
+    cb(event);
+  };
+  [...idb_db.objectStoreNames].map(storeName =>
+    transaction.objectStore(storeName).clear()
+  );
+  cb(null);
+};
+
 class ImportData extends React.Component {
   state = {
     open: false,
@@ -59,7 +69,7 @@ class ImportData extends React.Component {
       db.open()
         .then(function() {
           let idb_db = db.backendDB();
-          IDBExportImport.clearDatabase(idb_db, function(err) {
+          clearDatabase(idb_db, function(err) {
             if (!err) {
               importFromJsonString(idb_db, jsonString, function(err) {
                 console.log(err);

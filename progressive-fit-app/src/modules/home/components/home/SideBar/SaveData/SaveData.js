@@ -3,7 +3,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Save from "@material-ui/icons/Save";
 import db from "modules/common/db";
-import IDBExportImport from "indexeddb-export-import";
 import moment from "moment";
 
 const downloadObjectAsJson = (exportObj, exportName) => {
@@ -18,12 +17,42 @@ const downloadObjectAsJson = (exportObj, exportName) => {
   downloadAnchorNode.remove();
 };
 
+const exportToJsonString = (idb_db, cb) => {
+  let exportObject = {};
+  if (idb_db.objectStoreNames.length === 0)
+    cb(null, JSON.stringify(exportObject));
+  else {
+    let transaction = idb_db.transaction(idb_db.objectStoreNames, "readonly");
+    transaction.onerror = event => {
+      cb(event);
+    };
+    [...idb_db.objectStoreNames].map(storeName => {
+      let allObjects = [];
+      transaction.objectStore(storeName).openCursor().onsuccess = event => {
+        let cursor = event.target.result;
+        if (cursor) {
+          allObjects.push(cursor.value);
+          cursor.continue();
+        } else {
+          exportObject[storeName] = allObjects;
+          if (
+            idb_db.objectStoreNames.length === Object.keys(exportObject).length
+          ) {
+            cb(null, JSON.stringify(exportObject));
+          }
+        }
+      };
+      return null;
+    });
+  }
+};
+
 class SaveData extends React.Component {
   handleSaveData = () => {
     db.open()
       .then(function() {
         let idb_db = db.backendDB();
-        IDBExportImport.exportToJsonString(idb_db, function(err, jsonString) {
+        exportToJsonString(idb_db, function(err, jsonString) {
           if (err) console.error(err);
           else {
             downloadObjectAsJson(
