@@ -34,7 +34,9 @@ const reducer = (state = initialState, action) => {
     case types.REMOVE_TRAINING_SET_SUCCESS: {
       return {
         ...state,
-        removingTrainingSet: false
+        removingTrainingSet: false,
+        selectedTrainingSet:
+          state.selectedTrainingSet.id === action.payload && {}
       };
     }
     case types.SELECT_TRAINING_SET: {

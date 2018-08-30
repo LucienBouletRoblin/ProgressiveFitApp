@@ -46,7 +46,8 @@ export const getFromDbTrainingSet = (withAutoSelectTrainingSet = null) => {
 export const removeTrainingSet = trainingSetIdToRemove => {
   return dispatch => {
     dispatch({
-      type: types.REMOVE_TRAINING_SET
+      type: types.REMOVE_TRAINING_SET,
+      payload: trainingSetIdToRemove
     });
     db.table("trainingSet")
       .delete(trainingSetIdToRemove)
@@ -54,7 +55,7 @@ export const removeTrainingSet = trainingSetIdToRemove => {
         dispatch({
           type: types.REMOVE_TRAINING_SET_SUCCESS
         });
-        dispatch(getFromDbTrainingSet());
+        dispatch(getFromDbTrainingSet(true));
       })
       .catch(error => {
         console.error(error.stack || error);

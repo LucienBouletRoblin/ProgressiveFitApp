@@ -33,6 +33,7 @@ class AddTrainingSet extends React.Component {
     values.created_date = new Date();
     values.uid = UID();
     this.props.addTrainingSet(values);
+    this.props.getFromDbTrainingSet(true);
     this.handleClose();
   };
 
