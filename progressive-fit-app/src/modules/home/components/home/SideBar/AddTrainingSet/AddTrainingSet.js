@@ -48,7 +48,6 @@ class AddTrainingSet extends React.Component {
         <Form
           onSubmit={this.onSubmit}
           validate={validate}
-          initialValues={{ name: "Pect/Back" }}
           render={({ handleSubmit, submitting, invalid }) => (
             <form onSubmit={handleSubmit}>
               <Dialog
